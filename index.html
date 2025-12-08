@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Rodamoinho – Insights para Criadores de TikTok</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Rodamoinho – painel web de insights que conecta sua conta TikTok e organiza desempenho de vídeos em um só lugar."
+  />
+  <style>
+    :root {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color-scheme: dark light;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background: #050509;
+      color: #f5f5f5;
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+    header, footer {
+      padding: 16px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      border-bottom: none;
+      margin-top: auto;
+      font-size: 13px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+    .logo-mark {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #ffffff 0, #ff3b81 35%, #4d5cff 70%, #050509 100%);
+    }
+    main {
+      padding: 40px 24px 32px;
+      max-width: 960px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 32px;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    h2 {
+      font-size: 20px;
+      margin: 24px 0 8px;
+    }
+    p {
+      margin: 0 0 10px;
+      line-height: 1.6;
+      max-width: 720px;
+    }
+    .tagline {
+      font-size: 16px;
+      color: #c2c2c2;
+      max-width: 560px;
+    }
+    .hero {
+      margin-top: 8px;
+      display: grid;
+      grid-template-columns: minmax(0,2.1fr) minmax(0,2fr);
+      gap: 32px;
+    }
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 12px;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.02);
+    }
+    .cta-area {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: none;
+      cursor: default;
+      font-weight: 500;
+      font-size: 14px;
+      background: linear-gradient(135deg, #ff3b81, #4d5cff);
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.55);
+    }
+    .btn-secondary {
+      font-size: 13px;
+      color: #c2c2c2;
+    }
+    .hero-right {
+      border-radius: 20px;
+      padding: 18px 18px 16px;
+      background: radial-gradient(circle at top left,#1a1a25,#060611);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+      font-size: 13px;
+    }
+    .hero-right-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .pill {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.24);
+    }
+    .metric-group {
+      display: grid;
+      grid-template-columns: repeat(3,minmax(0,1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .metric {
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(8,8,20,0.9);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .metric-label {
+      font-size: 11px;
+      color: #c2c2c2;
+      margin-bottom: 4px;
+    }
+    .metric-value {
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .table {
+      margin-top: 8px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    .table-header,
+    .table-row {
+      display: grid;
+      grid-template-columns: 2.2fr 1fr 1fr 1fr;
+      padding: 6px 10px;
+      column-gap: 10px;
+      align-items: center;
+    }
+    .table-header {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: rgba(255,255,255,0.03);
+      color: #aaaaaa;
+    }
+    .table-row {
+      font-size: 12px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .pill-format {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+    .layout-two {
+      display: grid;
+      grid-template-columns: minmax(0,1.4fr) minmax(0,1.4fr);
+      gap: 32px;
+      margin-top: 36px;
+    }
+    ul {
+      padding-left: 18px;
+      margin: 6px 0 0;
+      font-size: 14px;
+    }
+    li {
+      margin: 3px 0;
+    }
+    a {
+      color: #d5d5ff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    @media (max-width: 800px) {
+      .hero,
+      .layout-two {
+        grid-template-columns: minmax(0,1fr);
+      }
+      main {
+        padding-top: 28px;
+      }
+      h1 {
+        font-size: 26px;
+      }
+      .hero-right {
+        order: -1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <div class="logo-mark"></div>
+      <span>Rodamoinho – Insights</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-left">
+        <div>
+          <h1>Insights de TikTok em um painel claro e acionável.</h1>
+          <p class="tagline">
+            Rodamoinho – Insights conecta sua conta TikTok, organiza o desempenho dos seus vídeos
+            e ajuda você a tomar decisões mais racionais sobre conteúdo, formatos e séries.
+          </p>
+        </div>
+
+        <div class="badges">
+          <span class="badge">Painel web para criadores</span>
+          <span class="badge">Conecta via login oficial do TikTok</span>
+          <span class="badge">Leitura de dados da própria conta</span>
+        </div>
+
+        <div class="cta-area">
+          <div class="btn-primary">
+            Entrar com TikTok (em breve)
+          </div>
+          <div class="btn-secondary">
+            A integração usa apenas APIs oficiais do TikTok para ler métricas da sua própria conta.
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-right" aria-label="Prévia do painel de insights">
+        <div class="hero-right-title">
+          <div>
+            <strong>Painel do criador</strong>
+            <div style="font-size:11px;color:#b9b9b9;margin-top:2px;">
+              Visão geral da conta TikTok conectada
+            </div>
+          </div>
+          <span class="pill">Conectado via TikTok Login</span>
+        </div>
+
+        <div class="metric-group">
+          <div class="metric">
+            <div class="metric-label">Seguidores</div>
+            <div class="metric-value">128,4k</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Visualizações (30d)</div>
+            <div class="metric-value">3,2M</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Vídeos analisados</div>
+            <div class="metric-value">184</div>
+          </div>
+        </div>
+
+        <div style="font-size:12px;color:#bfbfbf;margin-top:8px;margin-bottom:4px;">
+          Últimos vídeos e desempenho:
+        </div>
+        <div class="table" role="table">
+          <div class="table-header" role="rowgroup">
+            <div>Vídeo</div>
+            <div>Views</div>
+            <div>Engaj.</div>
+            <div>Formato</div>
+          </div>
+          <div class="table-row" role="row">
+            <div>Hook rápido + legenda curta</div>
+            <div>254,3k</div>
+            <div>7,3%</div>
+            <div><span class="pill-format">Série A/B</span></div>
+          </div>
+          <div class="table-row" role="row">
+            <div>Antes/depois com texto na tela</div>
+            <div>98,1k</div>
+            <div>5,8%</div>
+            <div><span class="pill-format">Narrativa</span></div>
+          </div>
+          <div class="table-row" role="row">
+            <div>Trend + contexto original</div>
+            <div>412,9k</div>
+            <div>9,1%</div>
+            <div><span class="pill-format">Trend</span></div>
+          </div>
+        </div>
+
+        <div style="font-size:11px;color:#9a9a9a;margin-top:8px;">
+          Dados meramente ilustrativos. O painel real usa apenas dados da conta conectada,
+          autorizados via TikTok Login Kit e Display API.
+        </div>
+      </aside>
+    </section>
+
+    <section class="layout-two">
+      <div>
+        <h2>Como o Rodamoinho usa o TikTok</h2>
+        <p>
+          O Rodamoinho – Insights é um painel web que se conecta à sua conta TikTok através do
+          fluxo oficial de login. Depois de você autorizar o acesso, o painel lê:
+        </p>
+        <ul>
+          <li>informações básicas do seu perfil (nome, foto, estatísticas agregadas);</li>
+          <li>lista de vídeos públicos do seu perfil;</li>
+          <li>métricas básicas de desempenho dos vídeos.</li>
+        </ul>
+        <p>
+          O objetivo é apenas organizar essas informações em gráficos, comparações e grupos
+          de conteúdo, para que você entenda o que funciona e tome decisões de conteúdo.
+        </p>
+      </div>
+
+      <div>
+        <h2>Limites de uso e privacidade</h2>
+        <p>
+          O Rodamoinho não publica vídeos, não envia mensagens e não executa ações em nome da sua conta.
+          O acesso é de leitura, focado em métricas de desempenho.
+        </p>
+        <p>
+          Você pode desconectar sua conta a qualquer momento. Ao fazer isso, paramos de consultar
+          os dados da sua conta e seguimos a nossa Política de Privacidade para apagar ou anonimizar
+          os dados que ainda forem necessários para estatísticas agregadas.
+        </p>
+        <p>
+          Detalhes completos estão disponíveis nos documentos abaixo.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <a href="/terms.html">Termos de Uso</a>
+      <a href="/privacy.html">Política de Privacidade</a>
+      <a href="/callback.html">Status de conexão</a>
+    </div>
+    <div>
+      © <span id="year"></span> Rodamoinho – Insights. Este site não é afiliado nem endossado pelo TikTok.
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
